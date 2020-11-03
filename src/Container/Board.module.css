@@ -1,0 +1,28 @@
+.BoardWrapper {
+  background-color: #cccccc;
+  flex-basis: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.map {
+  width: 100%;
+}
+
+.mapWrap {
+  display: flex;
+  position: relative;
+}
+
+.mapCover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
