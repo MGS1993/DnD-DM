@@ -1,4 +1,4 @@
-import React, {Fragment, useContext} from 'react';
+import React, { useContext} from 'react';
 import sizingContext from '../../Context/sizingContext';
 // import RenderSquare from './renderSquare';
 import Square from '../Square/Square';
@@ -7,6 +7,9 @@ import Hero from '../Heroes/Hero';
 
 const Renderer = (props) => {
 
+  // useEffect(()=> {
+  //   console.log('renderer rendering...')
+  // })
 let context = useContext(sizingContext)
 
 let heroPosition = context.heroPosition
@@ -20,7 +23,7 @@ const RenderSquare = (x, y, [heroPositionX, heroPositionY]) => {
 
 
   const heroIsHere = heroPositionX === x && heroPositionY === y
-  const piece = heroIsHere ? <Hero /> : null
+  const piece = heroIsHere ? <Hero moveCmd={props.moveCmd} /> : null
   
 
   return <Square id={[x, y]} key={Math.random()*4}clicked={props.clicked}>{piece}</Square>

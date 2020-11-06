@@ -13,13 +13,40 @@ class Board extends Component {
        gridHeight: 17,
         },
     heroPosition: [1,1],
+    isHeroMovable: false,
     
   }
-
-  test = (e) => {
-    console.log(e.target.id)
-    // let oldPos = [...this.state.heroPosition];
+  
+  handleFlagForMovement = (e) => {
+    // e.target.style.backgroundColor = "salmon";
+    
+    this.setState({
+      isHeroMovable: !this.state.isHeroMovable
+    })
   }
+
+
+  handleMoveClick = (e) => {
+    
+    const cordStrArray = (e.target.id.split(','))
+    // console.log(cordStrArray)
+    if(cordStrArray.length <= 1) {
+      return
+    } else {
+      let newCord = cordStrArray.map(x => parseInt(x))
+      return(this.state.isHeroMovable ? this.moveHero(newCord) : null)
+    }
+   
+  }
+  moveHero = (coordinates) => {
+    let newPosition = coordinates
+    
+    this.setState({
+      heroPosition: newPosition
+    })
+    this.handleFlagForMovement();
+  }
+  
   render() {
    
 
@@ -28,17 +55,12 @@ class Board extends Component {
         <div className={styles.mapWrap}>
          <img className={styles.map} src={map} alt="clifftop"/>
           <div className={styles.mapCover}>
-        <sizingContext.Provider 
-        value={this.state}>
-         
-          
-          <Renderer clicked={this.test} />
-        </sizingContext.Provider>
-        
+            <sizingContext.Provider value={this.state}>
+              <Renderer moveCmd={this.handleFlagForMovement}  clicked={this.handleMoveClick} />
+            </sizingContext.Provider>
           </div>
-        
-         
          </div>
+         {/* <button onClick={this.handleMoveClick}>Move Hero 1</button> */}
       </div>
     )
   }
