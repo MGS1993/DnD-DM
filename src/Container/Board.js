@@ -12,9 +12,12 @@ class Board extends Component {
        gridWidth: 27,
        gridHeight: 17,
         },
-    heroPosition: [1,1],
-    isHeroMovable: false,
-    
+    heroPosition: [
+      [1,1],
+      [1,2],
+    ],
+      isHeroMovable: false,
+      
   }
   
   handleFlagForMovement = (e) => {
