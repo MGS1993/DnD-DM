@@ -6,7 +6,7 @@ const Hero = (props) => {
 
 
   return(
-    <div onClick={props.moveCmd} className={styles.Hero}>
+    <div onClick={props.moveCmd} className={styles.Hero} id={props.id}>
       ♘
     </div>
   )

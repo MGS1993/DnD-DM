@@ -17,16 +17,28 @@ let height = context.mapGrid.gridHeight;
 let width = context.mapGrid.gridWidth;
 // const totalSquares = width * height;
 
-console.log(heroPosition)
+// console.log(heroPosition)
 const RenderSquare = (x, y) => {
 
-
-  const heroIsHere = 
-  (heroPosition[0][0] === x && heroPosition[0][1] === y) 
+  let heroIsHere = null
+  let heroId = null
+  // const heroIsHere = 
+  // (heroPosition.hero1[0] === x && heroPosition.hero1[1] === y) 
   // ||
-  // (heroPosition[1][0] === x && heroPosition[1][1] === y)
-  
-  const piece = heroIsHere ? <Hero moveCmd={props.moveCmd} /> : null
+  // (heroPosition.hero2[0] === x && heroPosition.hero2[1] === y)
+  if(heroPosition.hero1[0] === x && heroPosition.hero1[1] === y) {
+    heroIsHere = heroPosition.hero1[0] === x && heroPosition.hero1[1] === y
+    heroId = 'hero1'
+  }
+  if(heroPosition.hero2[0] === x && heroPosition.hero2[1] === y) {
+    heroIsHere = heroPosition.hero2[0] === x && heroPosition.hero2[1] === y
+    heroId = 'hero2'
+  }
+
+
+  const piece = heroIsHere ? <Hero 
+  id={heroId}
+  moveCmd={props.moveCmd} /> : null
   
   
   
@@ -36,8 +48,6 @@ const RenderSquare = (x, y) => {
   clicked={props.clicked}>{piece}</Square>
 }
 let squares = [];
-
-
 
   const grid = () => {
     
