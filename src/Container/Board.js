@@ -14,7 +14,7 @@ class Board extends Component {
         },
     heroPosition: [
       [1,1],
-      [1,2],
+      // [1,2],
     ],
       isHeroMovable: false,
       
@@ -42,6 +42,7 @@ class Board extends Component {
    
   }
   moveHero = (coordinates) => {
+
     let newPosition = coordinates
     
     this.setState({
