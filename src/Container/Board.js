@@ -17,8 +17,18 @@ class Board extends Component {
   }
 
   test = (e) => {
-    console.log(e.target.id)
-    // let oldPos = [...this.state.heroPosition];
+    
+    let coordinates = e.target.id
+
+    console.log(coordinates)
+  }
+
+  move = () => {
+    let newPos = [9, 4];
+
+    this.setState({
+      heroPosition: newPos
+    })
   }
   render() {
    
@@ -30,8 +40,6 @@ class Board extends Component {
           <div className={styles.mapCover}>
         <sizingContext.Provider 
         value={this.state}>
-         
-          
           <Renderer clicked={this.test} />
         </sizingContext.Provider>
         
@@ -39,6 +47,7 @@ class Board extends Component {
         
          
          </div>
+         <button onClick={this.move}>Move</button>
       </div>
     )
   }
