@@ -17,64 +17,58 @@ let height = context.mapGrid.gridHeight;
 let width = context.mapGrid.gridWidth;
 // const totalSquares = width * height;
 
-console.log(heroPosition)
+// console.log(heroPosition)
+const RenderSquare = (x, y) => {
 
-const RenderSquare = (x, y, heroCord) => {
+  let heroIsHere = null
+  let heroId = null
+  // const heroIsHere = 
+  // (heroPosition.hero1[0] === x && heroPosition.hero1[1] === y) 
+  // ||
+  // (heroPosition.hero2[0] === x && heroPosition.hero2[1] === y)
+  if(heroPosition.hero1[0] === x && heroPosition.hero1[1] === y) {
+    heroIsHere = heroPosition.hero1[0] === x && heroPosition.hero1[1] === y
+    heroId = 'hero1'
+  }
+  if(heroPosition.hero2[0] === x && heroPosition.hero2[1] === y) {
+    heroIsHere = heroPosition.hero2[0] === x && heroPosition.hero2[1] === y
+    heroId = 'hero2'
+  }
 
 
-  const heroIsHere = heroCord[0] === x && heroCord[1] === y
-  const piece = heroIsHere ? <Hero moveCmd={props.moveCmd} /> : null
+  const piece = heroIsHere ? <Hero 
+  id={heroId}
+  moveCmd={props.moveCmd} /> : null
   
   
   
-  return <Square id={[x, y]} key={Math.random()*4}clicked={props.clicked}>{piece}</Square>
+  return <Square 
+  id={[x, y]} 
+  key={Math.random()*4}
+  clicked={props.clicked}>{piece}</Square>
 }
 let squares = [];
-// let squares2 = [];
+
   const grid = () => {
     
-    let heroPositions = [...heroPosition]
-    console.log(heroPositions)
     let x, y;
-    
         for (x=1; x <= height; x += 1) {
-          
+
           squares[x] = [];
             for (y=1; y <= width; y += 1) {
-              
-              squares[x][y] = RenderSquare(x, y, heroPositions[0]);
-             
-              // console.log('test')
+            
+              squares[x][y] = RenderSquare(x, y);
             }
             
         }
       return squares
   }
-  // const grid2 = () => {
-    
-  //   let heroPositions = [...heroPosition]
-  //   let x, y;
-    
-  //       for (x=1; x <= height; x += 1) {
-          
-  //         squares2[x] = [];
-  //           for (y=1; y <= width; y += 1) {
-              
-  //             squares2[x][y] = RenderSquare(x, y, heroPositions[1]);
-             
-  //             console.log('test')
-  //           }
-            
-  //       }
-  //     return squares2
-  // }
-  grid()
-  // grid2();
-  // console.log(squares)
+
+  
+  grid();
   return(
           <React.Fragment>
-          {squares}
-          {/* {squares2} */}
+            {squares}
           </React.Fragment>
   )
 }

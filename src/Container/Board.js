@@ -12,14 +12,17 @@ class Board extends Component {
        gridWidth: 27,
        gridHeight: 17,
         },
-    heroPosition: [
-      [1,1],
-      [1,2],
-    ],
+        heroPosition: {
+          hero1: [1,2],
+          hero2: [3,5],
+        },
       isHeroMovable: false,
+      clickedObject: null,
       
   }
   
+
+
   handleFlagForMovement = (e) => {
     // e.target.style.backgroundColor = "salmon";
     
@@ -30,26 +33,49 @@ class Board extends Component {
 
 
   handleMoveClick = (e) => {
+    let currentHero = e.target.id
+   console.log(currentHero)
+   
+   
     
     const cordStrArray = (e.target.id.split(','))
-    // console.log(cordStrArray)
+   
     if(cordStrArray.length <= 1) {
-      return
+      return this.setState({clickedObject: currentHero})
     } else {
       let newCord = cordStrArray.map(x => parseInt(x))
+      
       return(this.state.isHeroMovable ? this.moveHero(newCord) : null)
     }
    
   }
   moveHero = (coordinates) => {
-    let newPosition = coordinates
+    console.log('moveHero ran...')
+    let test = this.state.clickedObject
+    let newPos = Object.assign({}, this.state.heroPosition);
+
+    if(test === "hero1") {
+      newPos.hero1 = coordinates
+      this.setState({
+        heroPosition: newPos
+      })
+      this.handleFlagForMovement();
+      return 
+    }
+    if(test === "hero2") {
+      newPos.hero2 = coordinates
+      this.setState({
+        heroPosition: newPos
+      })
+      this.handleFlagForMovement();
+      return 
+    }
     
-    this.setState({
-      heroPosition: newPosition
-    })
-    this.handleFlagForMovement();
+    
+    
+    
   }
-  
+
   render() {
    
 
@@ -59,8 +85,10 @@ class Board extends Component {
          <img className={styles.map} src={map} alt="clifftop"/>
           <div className={styles.mapCover}>
             <sizingContext.Provider value={this.state}>
-              <Renderer moveCmd={this.handleFlagForMovement}  clicked={this.handleMoveClick} />
+              <Renderer moveCmd={this.handleFlagForMovement}  
+              clicked={this.handleMoveClick} />
             </sizingContext.Provider>
+            <button onClick={this.test}>test</button>
           </div>
          </div>
          {/* <button onClick={this.handleMoveClick}>Move Hero 1</button> */}
