@@ -1,6 +1,5 @@
 import React, { useContext} from 'react';
 import sizingContext from '../../Context/sizingContext';
-// import RenderSquare from './renderSquare';
 import Square from '../Square/Square';
 import Hero from '../Heroes/Hero';
 

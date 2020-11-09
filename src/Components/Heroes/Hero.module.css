@@ -1,6 +1,14 @@
 .Hero {
   height: 100%;
   width: 100%;
-  border: 2px solid red;
+  display: flex;
+  
+}
+
+.heroSprite {
+  height: auto;
+  width: 75%;
+  position: relative;
+  margin: 0 auto;
   
 }

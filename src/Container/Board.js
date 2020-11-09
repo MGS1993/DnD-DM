@@ -21,11 +21,14 @@ class Board extends Component {
       
   }
   
-
+  async componentDidMount() {
+    const response = await fetch(
+      `https://www.dnd5eapi.co/api/monsters/kobold`)
+    const data = await response.json();
+    console.log(data)
+  }
 
   handleFlagForMovement = (e) => {
-    // e.target.style.backgroundColor = "salmon";
-    
     this.setState({
       isHeroMovable: !this.state.isHeroMovable
     })
@@ -33,18 +36,14 @@ class Board extends Component {
 
 
   handleMoveClick = (e) => {
-    let currentHero = e.target.id
-   console.log(currentHero)
-   
-   
-    
+    let currentHero = e.target.parentElement.id
+    // console.log(e.target.parentElement.id)
     const cordStrArray = (e.target.id.split(','))
    
     if(cordStrArray.length <= 1) {
       return this.setState({clickedObject: currentHero})
     } else {
       let newCord = cordStrArray.map(x => parseInt(x))
-      
       return(this.state.isHeroMovable ? this.moveHero(newCord) : null)
     }
    
@@ -70,10 +69,6 @@ class Board extends Component {
       this.handleFlagForMovement();
       return 
     }
-    
-    
-    
-    
   }
 
   render() {
