@@ -35,30 +35,45 @@ class Board extends Component {
   handleMoveClick = (e) => {
     let currentHero = e.target.id
    console.log(currentHero)
-   this.setState({clickedObject: currentHero})
+   
+   
     
     const cordStrArray = (e.target.id.split(','))
    
     if(cordStrArray.length <= 1) {
-      return
+      return this.setState({clickedObject: currentHero})
     } else {
       let newCord = cordStrArray.map(x => parseInt(x))
       
-      return(this.state.isHeroMovable ? this.moveHero(newCord, currentHero) : null)
+      return(this.state.isHeroMovable ? this.moveHero(newCord) : null)
     }
    
   }
-  moveHero = (coordinates, chosenHero) => {
-    
+  moveHero = (coordinates) => {
+    console.log('moveHero ran...')
+    let test = this.state.clickedObject
     let newPos = Object.assign({}, this.state.heroPosition);
-    newPos.chosenHero = coordinates
-    ////////
-    //NEED TO GET CHOSENHERO CHANGE AND STAY AS EITHER HERO AFTER SECOND CLICK
-    /////////
-    this.setState({
-      heroPosition: newPos
-    })
-    this.handleFlagForMovement();
+
+    if(test === "hero1") {
+      newPos.hero1 = coordinates
+      this.setState({
+        heroPosition: newPos
+      })
+      this.handleFlagForMovement();
+      return 
+    }
+    if(test === "hero2") {
+      newPos.hero2 = coordinates
+      this.setState({
+        heroPosition: newPos
+      })
+      this.handleFlagForMovement();
+      return 
+    }
+    
+    
+    
+    
   }
 
   render() {
