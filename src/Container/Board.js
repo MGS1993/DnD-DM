@@ -16,17 +16,21 @@ class Board extends Component {
           hero1: [1,2],
           hero2: [3,5],
         },
+        enemyPosition: {
+          enemy1: [10,10],
+          enemy2: [12,11],
+        },
       isHeroMovable: false,
       clickedObject: null,
       
   }
   
-  async componentDidMount() {
-    const response = await fetch(
-      `https://www.dnd5eapi.co/api/monsters/kobold`)
-    const data = await response.json();
-    console.log(data)
-  }
+  // async componentDidMount() {
+  //   const response = await fetch(
+  //     `https://www.dnd5eapi.co/api/monsters/kobold`)
+  //   const data = await response.json();
+  //   console.log(data)
+  // }
 
   handleFlagForMovement = (e) => {
     this.setState({
@@ -36,39 +40,50 @@ class Board extends Component {
 
 
   handleMoveClick = (e) => {
-    let currentHero = e.target.parentElement.id
-    // console.log(e.target.parentElement.id)
+    let currentTarget = e.target.parentElement.id
     const cordStrArray = (e.target.id.split(','))
    
     if(cordStrArray.length <= 1) {
-      return this.setState({clickedObject: currentHero})
+
+      return this.setState({clickedObject: currentTarget})
+      
     } else {
       let newCord = cordStrArray.map(x => parseInt(x))
       return(this.state.isHeroMovable ? this.moveHero(newCord) : null)
     }
    
   }
+  
   moveHero = (coordinates) => {
     console.log('moveHero ran...')
-    let test = this.state.clickedObject
+    let target = this.state.clickedObject
     let newPos = Object.assign({}, this.state.heroPosition);
+    let newEnemyPos = Object.assign({}, this.state.enemyPosition);
 
-    if(test === "hero1") {
-      newPos.hero1 = coordinates
-      this.setState({
-        heroPosition: newPos
-      })
-      this.handleFlagForMovement();
-      return 
+    for(let i=1; i<=Object.keys(newPos).length; i++) {
+      
+      if(target === `hero${i}`) {
+        newPos[`hero${i}`] = coordinates
+        this.setState({
+          heroPosition: newPos
+        })
+        this.handleFlagForMovement();
+        
+      }
     }
-    if(test === "hero2") {
-      newPos.hero2 = coordinates
-      this.setState({
-        heroPosition: newPos
-      })
-      this.handleFlagForMovement();
-      return 
+    
+    for(let i=1; i<=Object.keys(newEnemyPos).length; i++) {
+      
+      if(target === `enemy${i}`) {
+        newEnemyPos[`enemy${i}`] = coordinates
+        this.setState({
+          enemyPosition: newEnemyPos
+        })
+        this.handleFlagForMovement();
+        
+      }
     }
+
   }
 
   render() {

@@ -2,7 +2,7 @@ import React, { useContext} from 'react';
 import sizingContext from '../../Context/sizingContext';
 import Square from '../Square/Square';
 import Hero from '../Heroes/Hero';
-
+import Enemy from '../Enemies/Enemy';
 
 const Renderer = (props) => {
 
@@ -11,33 +11,48 @@ const Renderer = (props) => {
   // })
 let context = useContext(sizingContext)
 
-let heroPosition = context.heroPosition
+let heroPosition = context.heroPosition;
+let enemyPosition = context.enemyPosition;
 let height = context.mapGrid.gridHeight;
 let width = context.mapGrid.gridWidth;
-// const totalSquares = width * height;
 
-// console.log(heroPosition)
 const RenderSquare = (x, y) => {
 
-  let heroIsHere = null
-  let heroId = null
-  // const heroIsHere = 
-  // (heroPosition.hero1[0] === x && heroPosition.hero1[1] === y) 
-  // ||
-  // (heroPosition.hero2[0] === x && heroPosition.hero2[1] === y)
-  if(heroPosition.hero1[0] === x && heroPosition.hero1[1] === y) {
-    heroIsHere = heroPosition.hero1[0] === x && heroPosition.hero1[1] === y
+  let heroIsHere = null;
+  let enemyIsHere = null;
+  let heroId = null;
+  let enemyId = null
+
+  function positionParameters(personTracked) {
+    return personTracked[0] === x && personTracked[1] === y
+  } 
+ 
+
+  if(positionParameters(heroPosition.hero1)) {
+    heroIsHere = positionParameters
     heroId = 'hero1'
   }
-  if(heroPosition.hero2[0] === x && heroPosition.hero2[1] === y) {
-    heroIsHere = heroPosition.hero2[0] === x && heroPosition.hero2[1] === y
+  if(positionParameters(heroPosition.hero2)) {
+    heroIsHere = positionParameters
     heroId = 'hero2'
   }
 
+  if(positionParameters(enemyPosition.enemy1)) {
+    enemyIsHere = positionParameters
+    enemyId = 'enemy1'
+  }
+  if(positionParameters(enemyPosition.enemy2)) {
+    enemyIsHere = positionParameters
+    enemyId = 'enemy2'
+  }
+
+  
 
   const piece = heroIsHere ? <Hero 
   id={heroId}
-  moveCmd={props.moveCmd} /> : null
+  moveCmd={props.moveCmd} /> : 
+  enemyIsHere ? <Enemy id={enemyId} 
+  moveCmd={props.moveCmd}/> : null
   
   
   
