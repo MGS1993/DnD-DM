@@ -15,10 +15,12 @@ class Board extends Component {
         heroPosition: {
           hero1: [1,2],
           hero2: [3,5],
+          hero3: [4,4]
         },
         enemyPosition: {
           enemy1: [10,10],
           enemy2: [12,11],
+          enemy3: [6,6],
         },
       isHeroMovable: false,
       clickedObject: null,
@@ -46,7 +48,7 @@ class Board extends Component {
     if(cordStrArray.length <= 1) {
 
       return this.setState({clickedObject: currentTarget})
-      
+
     } else {
       let newCord = cordStrArray.map(x => parseInt(x))
       return(this.state.isHeroMovable ? this.moveHero(newCord) : null)
