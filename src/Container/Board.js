@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styles from './Board.module.css';
 import map from '../Assets/Images/NorthernLand.jpg';
-// import Hero from '../Components/Heroes/Hero';
-// import Square from '../Components/Square/Square';
+import firebase from 'firebase';
 import sizingContext from '../Context/sizingContext';
 import Renderer from '../Components/Grid/Renderer';
 class Board extends Component {
@@ -27,12 +26,42 @@ class Board extends Component {
       
   }
   
-  // async componentDidMount() {
-  //   const response = await fetch(
-  //     `https://www.dnd5eapi.co/api/monsters/kobold`)
-  //   const data = await response.json();
-  //   console.log(data)
-  // }
+  async componentDidMount() {
+    this.getUserData();
+    this.getEnemyData();
+    console.log('componentdidmount ran...')
+  }
+
+  componentDidUpdate(prevState) {
+    if(prevState !== this.state) {
+      this.writeUserData();
+    }
+  }
+  
+  getUserData = () => {
+    let ref = firebase.database().ref('/heroPositions');
+
+    ref.on('value', snapshot => {
+      const state = snapshot.val();
+      this.setState({heroPosition: state})
+    })
+
+    
+  }
+
+  getEnemyData = () => {
+    let enemyRef = firebase.database().ref('/enemyPositions');
+
+    enemyRef.on('value', snapshot => {
+      const state = snapshot.val();
+      this.setState({enemyPosition: state})
+    })
+  }
+
+  writeUserData = () => {
+    firebase.database().ref('/heroPositions').set(this.state.heroPosition);
+    firebase.database().ref('/enemyPositions').set(this.state.enemyPosition)
+  }
 
   handleFlagForMovement = (e) => {
     this.setState({
