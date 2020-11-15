@@ -1,11 +1,13 @@
-import React, { useContext} from 'react';
+import React, { useContext, useEffect} from 'react';
 import sizingContext from '../../Context/sizingContext';
 import Square from '../Square/Square';
 import Hero from '../Heroes/Hero';
 import Enemy from '../Enemies/Enemy';
 
 const Renderer = (props) => {
-
+  useEffect(() => {
+    console.log('Renderer.js ran...')
+  })
   // useEffect(()=> {
   //   console.log('renderer rendering...')
   // })

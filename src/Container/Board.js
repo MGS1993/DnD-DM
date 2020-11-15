@@ -28,39 +28,37 @@ class Board extends Component {
   
   async componentDidMount() {
     this.getUserData();
-    this.getEnemyData();
     console.log('componentdidmount ran...')
   }
 
   componentDidUpdate(prevState) {
-    if(prevState !== this.state) {
+    if(prevState !== this.state.heroPosition) {
       this.writeUserData();
-    }
+    } 
+    console.log('ComponentDidUpdate ran...')
+    
   }
   
   getUserData = () => {
-    let ref = firebase.database().ref('/heroPositions');
+    let ref = firebase.database().ref();
 
     ref.on('value', snapshot => {
       const state = snapshot.val();
-      this.setState({heroPosition: state})
+      this.setState({
+        heroPosition: state.heroPositions,
+        enemyPosition: state.enemyPositions
+      })
     })
-
+    
     
   }
 
-  getEnemyData = () => {
-    let enemyRef = firebase.database().ref('/enemyPositions');
 
-    enemyRef.on('value', snapshot => {
-      const state = snapshot.val();
-      this.setState({enemyPosition: state})
-    })
-  }
 
   writeUserData = () => {
     firebase.database().ref('/heroPositions').set(this.state.heroPosition);
-    firebase.database().ref('/enemyPositions').set(this.state.enemyPosition)
+    firebase.database().ref('/enemyPositions').set(this.state.enemyPosition);
+    console.log('WriteUserData ran...')
   }
 
   handleFlagForMovement = (e) => {
@@ -119,7 +117,7 @@ class Board extends Component {
 
   render() {
    
-
+    console.log('board.js rendered...')
     return(
       <div className={styles.BoardWrapper}>
         <div className={styles.mapWrap}>
