@@ -14,12 +14,14 @@ class Board extends Component {
         heroPosition: {
           hero1: [1,2],
           hero2: [3,5],
-          hero3: [4,4]
+          hero3: [4,4],
+          
         },
         enemyPosition: {
           enemy1: [10,10],
           enemy2: [12,11],
           enemy3: [6,6],
+          enemy4: [6,2]
         },
       isHeroMovable: false,
       clickedObject: null,
@@ -61,6 +63,14 @@ class Board extends Component {
     console.log('WriteUserData ran...')
   }
 
+
+  testFunc = () => {
+    let newState = Object.assign({}, this.state.heroPosition)
+    newState.hero4 = [10,10]
+    console.log(newState)
+    this.setState({heroPosition: newState})
+  }
+
   handleFlagForMovement = (e) => {
     this.setState({
       isHeroMovable: !this.state.isHeroMovable
@@ -83,6 +93,8 @@ class Board extends Component {
    
   }
   
+ 
+
   moveHero = (coordinates) => {
     console.log('moveHero ran...')
     let target = this.state.clickedObject
@@ -127,10 +139,10 @@ class Board extends Component {
               <Renderer moveCmd={this.handleFlagForMovement}  
               clicked={this.handleMoveClick} />
             </sizingContext.Provider>
-            <button onClick={this.test}>test</button>
+            {/* <button onClick={this.test}>test</button> */}
           </div>
          </div>
-         {/* <button onClick={this.handleMoveClick}>Move Hero 1</button> */}
+         <button onClick={this.testFunc}>test func</button>
       </div>
     )
   }
