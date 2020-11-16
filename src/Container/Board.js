@@ -4,6 +4,7 @@ import map from "../Assets/Images/NorthernLand.jpg";
 import firebase from "firebase";
 import sizingContext from "../Context/sizingContext";
 import Renderer from "../Components/Grid/Renderer";
+import MapControls from '../Components/mapControls/MapControls';
 class Board extends Component {
   state = {
     mapGrid: {
@@ -12,14 +13,13 @@ class Board extends Component {
     },
     heroPosition: {
       hero1: [1, 2],
-      hero2: [3, 5],
-      hero3: [4, 4],
+     
+  
     },
     enemyPosition: {
       enemy1: [10, 10],
-      enemy2: [12, 11],
-      enemy3: [6, 6],
-      enemy4: [6, 2],
+      
+      
     },
     isHeroMovable: false,
     clickedObject: null,
@@ -55,12 +55,6 @@ class Board extends Component {
     console.log("WriteUserData ran...");
   };
 
-  // testFunc = () => {
-  //   let newState = Object.assign({}, this.state.heroPosition);
-  //   newState.hero4 = [10, 10];
-  //   console.log(newState);
-  //   this.setState({ heroPosition: newState });
-  // };
 
   handleFlagForMovement = (e) => {
     this.setState({
@@ -107,14 +101,40 @@ class Board extends Component {
     }
   };
 
+  handleEnemyQuantity = (e) => {
+    let amountOfEnemies = 0;
+    let currentQuantity = Object.assign({}, this.state.enemyPosition)
+    
+    for(const enemies in currentQuantity) {
+      amountOfEnemies++
+    }
+    
+    for(let i=1; i<=e.target.value; i++) {
+      amountOfEnemies++
+      currentQuantity[`enemy${amountOfEnemies}`] = [Math.ceil(Math.random() * 10), Math.floor(Math.random() * 10)]
+    }
+    this.setState({enemyPosition: currentQuantity})
+  }
+  handleHeroQuantity = (e) => {
+    let amountOfHeroes = 0;
+    let currentQuantity = Object.assign({}, this.state.heroPosition)
+    
+    for(const heroes in currentQuantity) {
+      amountOfHeroes++
+    }
+    
+    for(let i=1; i<=e.target.value; i++) {
+      amountOfHeroes++
+      currentQuantity[`hero${amountOfHeroes}`] = [Math.ceil(Math.random() * 10), Math.floor(Math.random() * 10)]
+    }
+    this.setState({heroPosition: currentQuantity})
+  }
+
   render() {
     console.log("board.js rendered...");
-    ///LOOK AT CHANGES ON FIREFOX DEVTOOLS BEFORE DOING ANYHTING
-    ///TRY TO ADD DIVS TO LEFT AND RIGHT OF BOARD WRAPPER SO THAT
-    ///YOU CAN MODIFY STATE
+
     return (
       <div className={styles.mainWrap}>
-        
           <div className={styles.BoardWrapper}>
             <div className={styles.mapWrap}>
               <img className={styles.map} src={map} alt="clifftop" />
@@ -128,10 +148,13 @@ class Board extends Component {
                 {/* <button onClick={this.test}>test</button> */}
               </div>
             </div>
-
             {/* <button onClick={this.testFunc}>test func</button> */}
           </div>
-          <div className={styles.boardSettings}></div>
+          <div className={styles.boardSettings}>
+            <MapControls
+            enemyQuantity={this.handleEnemyQuantity}
+             heroQuantity={this.handleHeroQuantity}/>
+          </div>
           <div className={styles.boardMiscStats}></div>
       </div>
     );
