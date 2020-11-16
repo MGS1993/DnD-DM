@@ -1,10 +1,13 @@
-
+import React from 'react';
 import './App.css';
 import Board from './Container/Board';
-function App() {
+
+const App = (props) => {
   return (
     <div className="App">
+
     <Board />
+  
     </div>
   );
 }
