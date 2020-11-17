@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styles from "./Board.module.css";
 import map from "../Assets/Images/NorthernLand.jpg";
 import firebase from "firebase";
 import sizingContext from "../Context/sizingContext";
 import Renderer from "../Components/Grid/Renderer";
 import MapControls from '../Components/mapControls/MapControls';
-class Board extends Component {
+import { storage } from '../index';
+class Board extends PureComponent {
   state = {
     mapGrid: {
       gridWidth: 27,
@@ -13,22 +14,24 @@ class Board extends Component {
     },
     heroPosition: {
       hero1: [1, 2],
-     
-  
     },
     enemyPosition: {
       enemy1: [10, 10],
-      
-      
     },
     isHeroMovable: false,
     clickedObject: null,
+    image: null,
+    mapUrl: null,
+    progress: 0,
   };
 
   async componentDidMount() {
     this.getUserData();
     console.log("componentdidmount ran...");
   }
+
+ 
+
 
   componentDidUpdate(prevState) {
     if (prevState !== this.state.heroPosition) {
@@ -104,7 +107,7 @@ class Board extends Component {
   handleEnemyQuantity = (e) => {
     let amountOfEnemies = 0;
     let currentQuantity = Object.assign({}, this.state.enemyPosition)
-    
+    // eslint-disable-next-line
     for(const enemies in currentQuantity) {
       amountOfEnemies++
     }
@@ -114,11 +117,12 @@ class Board extends Component {
       currentQuantity[`enemy${amountOfEnemies}`] = [Math.ceil(Math.random() * 10), Math.floor(Math.random() * 10)]
     }
     this.setState({enemyPosition: currentQuantity})
+    
   }
   handleHeroQuantity = (e) => {
     let amountOfHeroes = 0;
     let currentQuantity = Object.assign({}, this.state.heroPosition)
-    
+    // eslint-disable-next-line
     for(const heroes in currentQuantity) {
       amountOfHeroes++
     }
@@ -128,16 +132,61 @@ class Board extends Component {
       currentQuantity[`hero${amountOfHeroes}`] = [Math.ceil(Math.random() * 10), Math.floor(Math.random() * 10)]
     }
     this.setState({heroPosition: currentQuantity})
+    
   }
 
-  render() {
-    console.log("board.js rendered...");
+  fileSelectedHandler = (e) => {
+    this.setState({
+      image: e.target.files[0]
+    })
+  }
 
+  fileUploadHandler = () => {
+    let image =  this.state.image
+
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on(
+      "state_changed",
+      snapshot => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          
+        );
+        this.setState({progress: progress})
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then(url => {
+            this.setState({mapUrl: url})
+          })
+      }
+
+    )
+  }
+  render() {
+    let gameMap = null;
+    console.log("board.js rendered...");
+    if( this.state.mapUrl === null) {
+      gameMap = <img className={styles.map} src={map} alt="clifftop" />
+    } else if(this.state.mapUrl !== null) {
+       let uploadedMap = this.state.mapUrl
+      gameMap = <img className={styles.map} src={uploadedMap} alt="clifftop" />
+      
+    }
     return (
       <div className={styles.mainWrap}>
           <div className={styles.BoardWrapper}>
             <div className={styles.mapWrap}>
-              <img className={styles.map} src={map} alt="clifftop" />
+
+
+              {gameMap}
+
               <div className={styles.mapCover}>
                 <sizingContext.Provider value={this.state}>
                   <Renderer
@@ -151,9 +200,14 @@ class Board extends Component {
             {/* <button onClick={this.testFunc}>test func</button> */}
           </div>
           <div className={styles.boardSettings}>
+
             <MapControls
-            enemyQuantity={this.handleEnemyQuantity}
-             heroQuantity={this.handleHeroQuantity}/>
+              enemyQuantity={this.handleEnemyQuantity}
+              heroQuantity={this.handleHeroQuantity}
+              uploadEvent={this.fileSelectedHandler}
+              clicked={this.fileUploadHandler}
+              loader={this.state.progress}/>
+              
           </div>
           <div className={styles.boardMiscStats}></div>
       </div>

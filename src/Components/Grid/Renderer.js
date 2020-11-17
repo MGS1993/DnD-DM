@@ -8,17 +8,12 @@ const Renderer = (props) => {
   useEffect(() => {
     console.log('Renderer.js ran...')
   })
-  // useEffect(()=> {
-  //   console.log('renderer rendering...')
-  // })
-let context = useContext(sizingContext)
 
+let context = useContext(sizingContext)
 let heroPosition = context.heroPosition;
 let enemyPosition = context.enemyPosition;
 let height = context.mapGrid.gridHeight;
 let width = context.mapGrid.gridWidth;
-
-
 
 const RenderSquare = (x, y) => {
 
@@ -27,7 +22,6 @@ const RenderSquare = (x, y) => {
   let heroId = null;
   let enemyId = null
 
-  
   function positionParameters(personTracked) {
     return personTracked[0] === x && personTracked[1] === y
   } 
@@ -36,15 +30,14 @@ const RenderSquare = (x, y) => {
     if(positionParameters(heroPosition[`hero${i}`])) {
       heroIsHere = positionParameters
       heroId = `hero${i}`
-  }
-  
+      }
   }
 
   for(let i=1; i<=Object.keys(enemyPosition).length; i++) {
     if(positionParameters(enemyPosition[`enemy${i}`])) {
       enemyIsHere = positionParameters
       enemyId = `enemy${i}`
-  }
+      }
     }
 
 
@@ -89,4 +82,4 @@ let squares = [];
 }
 
 
-export default Renderer;
+export default React.memo(Renderer);
