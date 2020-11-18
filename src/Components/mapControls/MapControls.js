@@ -15,47 +15,55 @@ const MapControls = (props) => {
   return (
     <div className={styles.MapControlsWrapper}>
       <div className={styles.enemySettings}>
-        <label>
-          Enemies:
-          <select onChange={props.enemyQuantity}>{dropDown}</select>
-        </label>
+        <div className={styles.addEnemyInput}>
+          <label>
+            Add 
+            <select onChange={props.enemyQuantity}>{dropDown}</select>
+            enemies
+          </label>
+        </div>
+        <div className={styles.deleteEnemyInput}>
+          <label>
+            Reduce enemies to
+            <select onChange={props.deleteEnemyQuantity}>{dropDown}</select>
+          </label>
+        </div>
       </div>
+
       <div className={styles.heroSettings}>
-        <label>
-          Heroes:
-          <select onChange={props.heroQuantity}>{dropDown}</select>
-        </label>
-        <br></br>
-        <label>
-          DeleteEnemies:
-          <select onChange={props.deleteEnemyQuantity}>{dropDown}</select>
-        </label>
+        <div className={styles.addHeroInput}>
+          <label>
+            Add
+            <select onChange={props.heroQuantity}>{dropDown}</select>
+            heroes
+          </label>
+        </div>
+        <div className={styles.deleteHeroInput}>
+          <label>
+            Reduce heroes to
+            <select onChange={props.deleteHeroQuantity}>{dropDown}</select>
+          </label>
+        </div>
       </div>
-      <div className={styles.heroSettings}>
-        <label>
-          DeleteHeroes:
-          <select onChange={props.deleteHeroQuantity}>{dropDown}</select>
-        </label>
-      </div>
+
       <div className={styles.mapSettings}>
         <label>
           height:
-          <input onChange={props.heightInput} type="text"/>
+          <input onChange={props.heightInput} type="text" />
         </label>
-        <br/>
+        <br />
         <label>
           width:
-          <input onChange={props.widthInput}type="text"/>
+          <input onChange={props.widthInput} type="text" />
         </label>
-        <br/>
+        <br />
         <button onClick={props.submitDimensions}>Submit Map dimension</button>
         <label>
-          <br/>
+          <br />
           Upload mapSettings
-          <input type="file"
-           onChange={props.uploadEvent}/>
-           <button onClick={props.clicked}>Upload</button>
-           <progress value={props.loader} max='100'/>
+          <input type="file" onChange={props.uploadEvent} />
+          <button onClick={props.clicked}>Upload</button>
+          <progress value={props.loader} max="100" />
         </label>
       </div>
     </div>

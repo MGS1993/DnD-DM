@@ -38,9 +38,10 @@
 .boardSettings {
   display: flex;
   flex-basis: 15%;
-  background-color: rgb(202, 227, 248);
+  background-color: rgb(224, 224, 224);
   flex-grow: 1;
   order: 0;
+ 
 }
 .boardMiscStats {
   display: flex;
@@ -48,4 +49,5 @@
   background-color: antiquewhite;
   flex-grow: 1;
   order: 2;
+  
 }
