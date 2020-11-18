@@ -25,15 +25,13 @@ class Board extends PureComponent {
     progress: 0,
     mapHeightInput: null,
     mapWidthInput: null,
+    nextClickDeletes: false
   };
 
   async componentDidMount() {
     this.getUserData();
     console.log("componentdidmount ran...");
   }
-
- 
-
 
   componentDidUpdate(prevState) {
     if (prevState !== this.state.heroPosition || prevState !== this.state.enemyPosition) {
@@ -44,7 +42,6 @@ class Board extends PureComponent {
 
   getUserData = () => {
     let ref = firebase.database().ref();
-
     ref.on("value", (snapshot) => {
       const state = snapshot.val();
       this.setState({
@@ -59,7 +56,6 @@ class Board extends PureComponent {
     firebase.database().ref("/enemyPositions").set(this.state.enemyPosition);
     console.log("WriteUserData ran...");
   };
-
 
   handleFlagForMovement = (e) => {
     this.setState({
@@ -80,7 +76,6 @@ class Board extends PureComponent {
   };
 
   moveHero = (coordinates) => {
-    console.log("moveHero ran...");
     let target = this.state.clickedObject;
     let newPos = Object.assign({}, this.state.heroPosition);
     let newEnemyPos = Object.assign({}, this.state.enemyPosition);
@@ -94,7 +89,6 @@ class Board extends PureComponent {
         this.handleFlagForMovement();
       }
     }
-
     for (let i = 1; i <= Object.keys(newEnemyPos).length; i++) {
       if (target === `enemy${i}`) {
         newEnemyPos[`enemy${i}`] = coordinates;
@@ -121,6 +115,19 @@ class Board extends PureComponent {
     this.setState({enemyPosition: currentQuantity})
     
   }
+  handleDeleteEnemyQuantity = (e) => {
+    let amountOfEnemies = 0;
+    let currentQuantity = Object.assign({}, this.state.enemyPosition)
+  // eslint-disable-next-line
+    for(const enemies in currentQuantity) {
+      amountOfEnemies++
+    }
+    for(let i= amountOfEnemies; i>=parseInt(e.target.value)+1; i--) {
+      delete currentQuantity[`enemy${i}`]
+    }
+   this.setState({enemyPosition: currentQuantity})
+  }
+
   handleHeroQuantity = (e) => {
     let amountOfHeroes = 0;
     let currentQuantity = Object.assign({}, this.state.heroPosition)
@@ -134,6 +141,20 @@ class Board extends PureComponent {
     }
     this.setState({heroPosition: currentQuantity})
   }
+  
+  handleDeleteHeroQuantity = (e) => {
+    let amountOfHeroes = 0;
+    let currentQuantity = Object.assign({}, this.state.heroPosition)
+  // eslint-disable-next-line
+    for(const heroes in currentQuantity) {
+      amountOfHeroes++
+    }
+    for(let i= amountOfHeroes; i>=parseInt(e.target.value)+1; i--) {
+      delete currentQuantity[`hero${i}`]
+    }
+   this.setState({heroPosition: currentQuantity})
+  }
+  
 
   fileSelectedHandler = (e) => {
     this.setState({
@@ -171,9 +192,6 @@ class Board extends PureComponent {
 
   heightInputHandler = (e) => {
     this.setState({mapHeightInput: parseInt(e.target.value)})
-
-    ///FIND OUT HOW TO GET BOTH HEIGHT AND WIDTH VALUES FROM PROP FUNCTIONS
-    ///TO UPDATE THE STATE GRID DIMENSIONS
   }
   widthInputHandler = (e) => {
     this.setState({mapWidthInput: parseInt(e.target.value)})
@@ -199,7 +217,6 @@ class Board extends PureComponent {
     } else if(this.state.mapUrl !== null) {
        let uploadedMap = this.state.mapUrl
       gameMap = <img className={styles.map} src={uploadedMap} alt="clifftop" />
-      
     }
     return (
       <div className={styles.mainWrap}>
@@ -219,6 +236,8 @@ class Board extends PureComponent {
             <MapControls
               enemyQuantity={this.handleEnemyQuantity}
               heroQuantity={this.handleHeroQuantity}
+              deleteEnemyQuantity={this.handleDeleteEnemyQuantity}
+              deleteHeroQuantity={this.handleDeleteHeroQuantity}
               uploadEvent={this.fileSelectedHandler}
               clicked={this.fileUploadHandler}
               loader={this.state.progress}
@@ -232,5 +251,4 @@ class Board extends PureComponent {
     );
   }
 }
-
 export default Board;

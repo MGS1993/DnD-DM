@@ -56,7 +56,8 @@ const RenderSquare = (x, y) => {
   return <Square 
   id={[x, y]} 
   key={Math.random()*4}
-  clicked={props.clicked}>{piece}</Square>
+  clicked={props.clicked}
+  onDoubleClicked={props.dbClicked}>{piece}</Square>
 }
 let squares = [];
 

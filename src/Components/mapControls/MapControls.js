@@ -25,6 +25,17 @@ const MapControls = (props) => {
           Heroes:
           <select onChange={props.heroQuantity}>{dropDown}</select>
         </label>
+        <br></br>
+        <label>
+          DeleteEnemies:
+          <select onChange={props.deleteEnemyQuantity}>{dropDown}</select>
+        </label>
+      </div>
+      <div className={styles.heroSettings}>
+        <label>
+          DeleteHeroes:
+          <select onChange={props.deleteHeroQuantity}>{dropDown}</select>
+        </label>
       </div>
       <div className={styles.mapSettings}>
         <label>
