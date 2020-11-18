@@ -23,6 +23,8 @@ class Board extends PureComponent {
     image: null,
     mapUrl: null,
     progress: 0,
+    mapHeightInput: null,
+    mapWidthInput: null,
   };
 
   async componentDidMount() {
@@ -34,7 +36,7 @@ class Board extends PureComponent {
 
 
   componentDidUpdate(prevState) {
-    if (prevState !== this.state.heroPosition) {
+    if (prevState !== this.state.heroPosition || prevState !== this.state.enemyPosition) {
       this.writeUserData();
     }
     console.log("ComponentDidUpdate ran...");
@@ -126,13 +128,11 @@ class Board extends PureComponent {
     for(const heroes in currentQuantity) {
       amountOfHeroes++
     }
-    
     for(let i=1; i<=e.target.value; i++) {
       amountOfHeroes++
       currentQuantity[`hero${amountOfHeroes}`] = [Math.ceil(Math.random() * 10), Math.floor(Math.random() * 10)]
     }
     this.setState({heroPosition: currentQuantity})
-    
   }
 
   fileSelectedHandler = (e) => {
@@ -166,8 +166,30 @@ class Board extends PureComponent {
             this.setState({mapUrl: url})
           })
       }
-
     )
+  }
+
+  heightInputHandler = (e) => {
+    this.setState({mapHeightInput: parseInt(e.target.value)})
+
+    ///FIND OUT HOW TO GET BOTH HEIGHT AND WIDTH VALUES FROM PROP FUNCTIONS
+    ///TO UPDATE THE STATE GRID DIMENSIONS
+  }
+  widthInputHandler = (e) => {
+    this.setState({mapWidthInput: parseInt(e.target.value)})
+  }
+
+  submitDimensionsHandler = e => {
+    let newGrid = {
+      newGridHeight: this.state.mapHeightInput,
+      newGridWidth: this.state.mapWidthInput
+    }
+    this.setState({
+      mapGrid: {
+        gridHeight: newGrid.newGridHeight,
+        gridWidth: newGrid.newGridWidth
+      }
+    })
   }
   render() {
     let gameMap = null;
@@ -183,31 +205,27 @@ class Board extends PureComponent {
       <div className={styles.mainWrap}>
           <div className={styles.BoardWrapper}>
             <div className={styles.mapWrap}>
-
-
               {gameMap}
-
               <div className={styles.mapCover}>
                 <sizingContext.Provider value={this.state}>
                   <Renderer
                     moveCmd={this.handleFlagForMovement}
-                    clicked={this.handleMoveClick}
-                  />
+                    clicked={this.handleMoveClick}/>
                 </sizingContext.Provider>
-                {/* <button onClick={this.test}>test</button> */}
               </div>
             </div>
-            {/* <button onClick={this.testFunc}>test func</button> */}
           </div>
           <div className={styles.boardSettings}>
-
             <MapControls
               enemyQuantity={this.handleEnemyQuantity}
               heroQuantity={this.handleHeroQuantity}
               uploadEvent={this.fileSelectedHandler}
               clicked={this.fileUploadHandler}
-              loader={this.state.progress}/>
-              
+              loader={this.state.progress}
+              heightInput={this.heightInputHandler}
+              widthInput={this.widthInputHandler}
+              submitDimensions={this.submitDimensionsHandler}
+              />
           </div>
           <div className={styles.boardMiscStats}></div>
       </div>

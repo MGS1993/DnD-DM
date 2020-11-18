@@ -29,13 +29,15 @@ const MapControls = (props) => {
       <div className={styles.mapSettings}>
         <label>
           height:
-          <input type="text"/>
+          <input onChange={props.heightInput} type="text"/>
         </label>
         <br/>
         <label>
           width:
-          <input type="text"/>
+          <input onChange={props.widthInput}type="text"/>
         </label>
+        <br/>
+        <button onClick={props.submitDimensions}>Submit Map dimension</button>
         <label>
           <br/>
           Upload mapSettings
