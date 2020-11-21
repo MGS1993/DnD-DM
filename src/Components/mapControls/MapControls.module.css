@@ -7,8 +7,85 @@
 
 .enemySettings {
   flex-basis: 15%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  
 }
 
 .heroSettings {
   flex-basis: 15%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.addEnemyInput {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+ 
+
+}
+.deleteEnemyInput {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.addHeroInput {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.deleteHeroInput {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.stylizedBtn {
+  background-color: #1B5472;
+  color: white;
+  font-weight: bold;
+  padding: 7px;
+  border: 0px;
+  border-radius: 3px;
+}
+.stylizedBtn:hover {
+  background-color: #54BCC9;
+}
+.stylizedBtn:active {
+  background-color: #95FFFF;
+  border: 1px solid #1B5472;
+}
+.mapSettings {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+}
+.dimensionsInput {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 25%;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-grow: 2;
+  text-align: center;
+}
+.uploadSettings > label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10% 0;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.uploadSettings {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
 }

@@ -26,7 +26,7 @@
 }
 
 .BoardWrapper {
-  background-color: #cccccc;
+  background-color: #1A5371;
   flex-basis: 60%;
   display: flex;
   justify-content: center;
@@ -38,7 +38,7 @@
 .boardSettings {
   display: flex;
   flex-basis: 15%;
-  background-color: rgb(224, 224, 224);
+  background-color: #F07C41AB;
   flex-grow: 1;
   order: 0;
  
@@ -46,7 +46,7 @@
 .boardMiscStats {
   display: flex;
   flex-basis: 15%;
-  background-color: antiquewhite;
+  background-color: #C5EEF3;
   flex-grow: 1;
   order: 2;
   
